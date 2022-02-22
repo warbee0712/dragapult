@@ -1,0 +1,8 @@
+plugins {
+    id 'jvm-library'
+}
+
+dependencies {
+    implementation project(":dragapult-core")
+    implementation 'org.apache.commons:commons-csv:1.9.0'
+}

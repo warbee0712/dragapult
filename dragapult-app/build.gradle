@@ -1,0 +1,16 @@
+plugins {
+    id 'jvm-application'
+}
+
+application {
+    mainClassName = 'dragapult.app.MainKt'
+}
+
+dependencies {
+    implementation project(":dragapult-core")
+    implementation project(":dragapult-android")
+    implementation project(":dragapult-apple")
+    implementation project(":dragapult-json")
+    implementation project(":dragapult-csv")
+    implementation "commons-cli:commons-cli:1.5.0"
+}
