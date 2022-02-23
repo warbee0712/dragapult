@@ -1,19 +1,17 @@
 package dragapult.app.model
 
-enum class Platform {
+enum class Source {
 
-    Android,
-    Apple,
-    Json;
+    Json,
+    Csv;
 
     companion object {
 
-        fun valuesString() = listOf("apple", "android", "json")
+        fun valuesString() = listOf("json", "csv")
 
         fun valueOfOption(type: String) = when (type) {
-            "apple" -> Apple
-            "android" -> Android
             "json" -> Json
+            "csv" -> Csv
             else -> throw IllegalArgumentException("Unsupported file type $type")
         }
 
