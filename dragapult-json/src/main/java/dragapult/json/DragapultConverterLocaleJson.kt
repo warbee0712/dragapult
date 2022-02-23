@@ -9,7 +9,7 @@ class DragapultConverterLocaleJson(
 ) : DragapultConverter<File, Set<Locale>> {
 
     override fun convert(input: File): Set<Locale> {
-        return input.listFiles().asSequence()
+        return input.listFiles().orEmpty().asSequence()
             .map { it.nameWithoutExtension }
             .map { it.replace(".json", "") }
             .map { it.ifBlank { defaultLanguage } }

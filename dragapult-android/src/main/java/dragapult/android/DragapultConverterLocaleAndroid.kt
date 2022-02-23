@@ -9,17 +9,17 @@ class DragapultConverterLocaleAndroid(
     private val defaultLanguage: String = "en"
 ) : DragapultConverter<File, Set<Locale>> {
 
-    override fun convert(input: File): Set<Locale> {
-        val eligibleFolders = input.listFiles { file ->
-            file.list()?.contains(fileName) == true
-        }.orEmpty()
-        return eligibleFolders
-            .asSequence()
-            .map { it.nameWithoutExtension }
-            .map { it.replace(Regex("values-?"), "") }
-            .map { it.ifBlank { defaultLanguage } }
-            .map { Locale.forLanguageTag(it) }
-            .toSet()
+    override fun convert(input: File) = getEligibleFolders(input)
+        .asSequence()
+        .map { it.nameWithoutExtension }
+        .map { it.replace(Regex("values-?"), "") }
+        .map { it.ifBlank { defaultLanguage } }
+        .map { Locale.forLanguageTag(it) }
+        .toSet()
+
+    private fun getEligibleFolders(sourceDir: File): Array<out File> {
+        fun containsSourceFile(file: File) = file.list().orEmpty().contains(fileName)
+        return sourceDir.listFiles(::containsSourceFile).orEmpty()
     }
 
 }
