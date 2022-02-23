@@ -1,10 +1,10 @@
 package dragapult.gradle.factory
 
 import dragapult.gradle.callback.OnTaskCreated
-import dragapult.gradle.model.TaskRegistry
+import org.gradle.api.Project
 
 fun interface TaskFactoryAsync {
 
-    fun getInstanceAsync(registry: TaskRegistry, callback: OnTaskCreated)
+    fun getInstanceAsync(project: Project, callback: OnTaskCreated)
 
 }
