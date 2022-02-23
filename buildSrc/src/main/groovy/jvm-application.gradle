@@ -2,3 +2,28 @@ plugins {
     id 'application'
     id 'jvm-common'
 }
+
+task assembleDistRename(type: Copy) {
+    def srcFile = project.name + "-" + project.version
+    def dstFile = project.name
+
+    from(file(project.buildDir.absolutePath + "/distributions"))
+    include "$srcFile.*"
+    destinationDir(file(project.buildDir.absolutePath + "/distributions"))
+    dependsOn assembleDist
+
+    rename {
+        it.replace(srcFile, dstFile)
+    }
+}
+
+task assembleDistCleanup(type: Delete) {
+    def dir = project.buildDir.absolutePath + "/distributions/"
+    delete("$dir${project.name}-${project.version}.zip")
+    delete("$dir${project.name}-${project.version}.tar")
+    dependsOn assembleDistRename
+}
+
+task assembleOutputs {
+    dependsOn assembleDist, assembleDistCleanup
+}

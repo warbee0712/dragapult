@@ -1,0 +1,30 @@
+plugins {
+    id 'jvm-gradle'
+    id 'com.vanniktech.maven.publish'
+}
+
+group = "dragapult.gradle"
+version = "release"
+
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = "dragapult.i18n"
+            implementationClass = "dragapult.gradle.DragapultPlugin"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+
+    compileOnly(gradleApi())
+
+    implementation 'de.undercouch:gradle-download-task:5.0.1'
+    implementation "com.android.tools.build:gradle:7.1.1"
+
+}
