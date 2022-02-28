@@ -26,24 +26,13 @@ jobs:
         run: |
           echo "mavenCentralUsername=$OOSRH_USERNAME" >> gradle.properties
           echo "mavenCentralPassword=$OOSRH_PASSWORD" >> gradle.properties
-          echo "signing.keyId=$SIGNING_KEY_ID" >> gradle.properties
-          echo "signing.password=$SIGNING_PASSWORD" >> gradle.properties
-          echo "signing.secretKeyRingFile=$SIGNING_SECRET_RING" >> gradle.properties
+          echo "signingInMemoryKey=$SIGNING_KEY" >> gradle.properties
+          echo "signingInMemoryKeyPassword=$SIGNING_PASSWORD" >> gradle.properties
         env:
           OOSRH_USERNAME: ${{ secrets.OOSRH_USERNAME }}
           OOSRH_PASSWORD: ${{ secrets.OOSRH_PASSWORD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_RING: ${{ secrets.SIGNING_SECRET_RING }}
-
-      - name: Create secring.gpg file
-        run: |
-          mkdir -p $SIGNING_SECRET_RING
-          rmdir $SIGNING_SECRET_RING
-          printf "$SIGNING_SECRET_RING_FILE" | base64 --decode > $SIGNING_SECRET_RING
-        env:
-          SIGNING_SECRET_RING: ${{ secrets.SIGNING_SECRET_RING }}
-          SIGNING_SECRET_RING_FILE: ${{ secrets.SIGNING_SECRET_RING_FILE }}
 
       - name: Setup Java
         uses: actions/setup-java@v1.4.3

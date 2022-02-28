@@ -17,6 +17,10 @@ repositories {
     google()
 }
 
+mavenPublish {
+    sonatypeHost = "S01"
+}
+
 dependencies {
 
     compileOnly(gradleApi())
