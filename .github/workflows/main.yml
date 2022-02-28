@@ -24,8 +24,8 @@ jobs:
 
       - name: Append variables
         run: |
-          echo "mavenCentralRepositoryUsername=$OOSRH_USERNAME" >> gradle.properties
-          echo "mavenCentralRepositoryPassword=$OOSRH_PASSWORD" >> gradle.properties
+          echo "mavenCentralUsername=$OOSRH_USERNAME" >> gradle.properties
+          echo "mavenCentralPassword=$OOSRH_PASSWORD" >> gradle.properties
           echo "signing.keyId=$SIGNING_KEY_ID" >> gradle.properties
           echo "signing.password=$SIGNING_PASSWORD" >> gradle.properties
           echo "signing.secretKeyRingFile=$SIGNING_SECRET_RING" >> gradle.properties
