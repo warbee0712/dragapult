@@ -10,7 +10,9 @@ class DragapultConverterFactoryDefault(
 
     override fun getLocalization(translations: Translations): DragapultConverter<Translations, List<Localization>> {
         val locales = converter.convert(translations)
-        val converters = locales.map { DragapultConverterLocalization(it) }.toTypedArray()
+        val converters = locales
+            .map { DragapultConverterLocalization(it) }
+            .toTypedArray()
         return DragapultConverterConcat(converters = converters)
     }
 

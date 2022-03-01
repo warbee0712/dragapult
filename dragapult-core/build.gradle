@@ -1,3 +1,7 @@
 plugins {
     id 'jvm-library'
 }
+
+dependencies {
+    testImplementation project(":dragapult-test")
+}
