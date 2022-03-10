@@ -12,12 +12,11 @@ import dragapult.model.Translations
 import java.io.File
 
 fun export(options: GenerateOptions) {
-    DragapultExporter.Builder()
-        .setReader(getReader(options.inputFile, options.inputType))
-        .setConverter(getConverter())
-        .setWriter(getWriter(options.outputDirectory, options.outputType))
-        .build()
-        .run()
+    DragapultExporter(
+        reader = getReader(options.inputFile, options.inputType),
+        converter = getConverter(),
+        writer = getWriter(options.outputDirectory, options.outputType)
+    ).run()
 }
 
 fun getDescriptorFactory(platform: Platform): PlatformFileDescriptorFactory {
