@@ -15,15 +15,14 @@ import dragapult.csv.configuration.DragapultWriterConfiguration as DragapultWrit
 import dragapult.json.configuration.DragapultWriterConfiguration as DragapultWriterConfigurationJson
 
 fun import(options: ConsumeOptions) {
-    DragapultImporter.Builder()
-        .setReader(getReader2(options.inputDirectory, options.inputType))
-        .setConverter(getConverter2())
-        .setWriter(getWriter2(options.outputFile, options.outputType))
-        .build()
-        .run()
+    DragapultImporter(
+        reader = getReader(options.inputDirectory, options.inputType),
+        converter = getConverter(),
+        writer = getWriter(options.outputFile, options.outputType)
+    ).run()
 }
 
-private fun getWriter2(output: File, type: Source): DragapultWriter<Translations> {
+private fun getWriter(output: File, type: Source): DragapultWriter<Translations> {
     val json = DragapultWriterConcat(
         DragapultWriterConfigurationJson(output),
         DragapultWriterJsonFormatter(output)
@@ -36,11 +35,11 @@ private fun getWriter2(output: File, type: Source): DragapultWriter<Translations
     return factory.getInstance(type)
 }
 
-private fun getConverter2(): DragapultConverter<List<Localization>, Translations> {
+private fun getConverter(): DragapultConverter<List<Localization>, Translations> {
     return DragapultConverterTranslations()
 }
 
-private fun getReader2(directory: File, platform: Platform): DragapultReader<List<Localization>> {
+private fun getReader(directory: File, platform: Platform): DragapultReader<List<Localization>> {
     val converter = DragapultLocaleConverterFactoryDefault(platform).getInstance()
     val factory = DragapultReaderFactoryDefault(platform, converter, getDescriptorFactory(platform))
     val readers = factory.getInstances(directory).toTypedArray()
