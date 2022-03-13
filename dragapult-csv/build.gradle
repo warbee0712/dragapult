@@ -5,4 +5,5 @@ plugins {
 dependencies {
     implementation project(":dragapult-core")
     implementation 'org.apache.commons:commons-csv:1.9.0'
+    testImplementation project(":dragapult-test")
 }
