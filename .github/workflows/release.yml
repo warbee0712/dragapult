@@ -1,0 +1,33 @@
+name: Release Packages
+
+on:
+  push:
+    tags:
+      - '*'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
+      - name: Build Library
+        run: ./gradlew assembleOutputs
+        
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dragapult-app/build/distributions/dragapult-app.zip
