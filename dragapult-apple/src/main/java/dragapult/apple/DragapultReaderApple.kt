@@ -11,7 +11,7 @@ class DragapultReaderApple(
 ) : DragapultReader<Localization> {
 
     override fun read(): Localization {
-        val pattern = Regex("\"([\\da-zA-Z_\\-]+)\"\\w*=\\w*\"(.+)\"")
+        val pattern = Regex("\"([\\da-zA-Z_\\-]+)\"\\s*=\\s*\"(.+)\"")
         val values = file.readLines().asSequence()
             .mapNotNull { pattern.find(it) }
             .map { it.groupValues[1] to it.groupValues[2] }
