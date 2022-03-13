@@ -9,7 +9,7 @@ import java.util.*
 
 class DragapultConverterLocaleAppleTest {
 
-    private val fileName: String = "strings.xml"
+    private val fileName: String = "Localizable.strings"
     private lateinit var resDir: File
     private lateinit var converter: DragapultConverterLocaleApple
 
