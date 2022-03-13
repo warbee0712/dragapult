@@ -24,7 +24,7 @@ class PlatformFileDescriptorJson(
 
     override fun getLineSeparator(isLast: Boolean): String {
         return when (isLast) {
-            true -> ""
+            true -> System.lineSeparator()
             else -> "," + System.lineSeparator()
         }
     }
