@@ -23,13 +23,14 @@ class DragapultWriterConcatTest {
         writer = DragapultWriterConcat(first, second)
     }
 
+    @Suppress("RedundantUnitExpression")
     @Test
     fun `writes all resources`() {
         val input = Any()
         var firstWritten = false
         var secondWritten = false
-        whenever(first.write(input)).thenAnswer { firstWritten = true; }
-        whenever(second.write(input)).thenAnswer { secondWritten = true; }
+        whenever(first.write(input)).thenAnswer { firstWritten = true;Unit }
+        whenever(second.write(input)).thenAnswer { secondWritten = true;Unit }
         writer.write(input)
         assertThat(firstWritten).isTrue()
         assertThat(secondWritten).isTrue()
