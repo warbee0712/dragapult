@@ -24,7 +24,7 @@ fun getDescriptorFactory(platform: Platform): PlatformFileDescriptorFactory {
 }
 
 private fun getWriter(directory: File, platform: Platform): DragapultWriter<Localization> {
-    return DragapultWriterLocalization(directory, getDescriptorFactory(platform))
+    return DragapultWriterLocalization(directory, getDescriptorFactory(platform), getTransformer())
 }
 
 private fun getConverter(): DragapultConverterFactory {
@@ -39,4 +39,8 @@ private fun getReader(input: File, type: Source): DragapultReader<Translations> 
         csv = csv
     )
     return factory.getInstance(type)
+}
+
+private fun getTransformer(): DragapultConverter<String, String> {
+    return DragapultConverterEscape()
 }
