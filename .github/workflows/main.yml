@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew --no-daemon :dragapult-gradle:assemble
 
       - name: Publish Library
-        run: ./gradlew --no-daemon --no-parallel :dragapult-gradle:publish
+        run: ./gradlew --no-daemon --no-parallel :dragapult-gradle:publishPluginMavenPublicationToMavenCentralRepository
 
       - name: Release Library
         run: ./gradlew --no-daemon --no-parallel :dragapult-gradle:closeAndReleaseRepository

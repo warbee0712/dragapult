@@ -5,7 +5,7 @@ plugins {
 
 gradlePlugin {
     plugins {
-        simplePlugin {
+        dragapult {
             id = "dragapult.i18n"
             implementationClass = "dragapult.gradle.DragapultPlugin"
         }
