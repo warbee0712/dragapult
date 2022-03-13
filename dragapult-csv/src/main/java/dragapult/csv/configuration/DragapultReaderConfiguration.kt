@@ -12,7 +12,11 @@ class DragapultReaderConfiguration(
 
     override fun read(): Translations {
         val reader = file.reader()
-        val contents = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader)
+        val format = CSVFormat.DEFAULT.builder()
+            .setHeader()
+            .setSkipHeaderRecord(true)
+            .build()
+        val contents = format.parse(reader)
         val output = mutableMapOf<String, MutableMap<Locale, String>>()
 
         for (record in contents) {
