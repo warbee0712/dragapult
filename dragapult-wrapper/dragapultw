@@ -1,0 +1,64 @@
+#!/bin/zsh
+
+InstallDir="/tmp/dragapult"
+BinaryDir="$InstallDir/bin"
+BinaryFile="$InstallDir/bin/dragapult-app"
+
+if [ ! -d $InstallDir ]; then
+  mkdir -p $InstallDir;
+fi
+
+# region Dragapult
+
+getDragapultRelease() {
+  curl -sL "https://api.github.com/repos/diareuse/dragapult/releases/latest" |
+    grep '"tag_name":' |
+    sed -E 's/.*"([^"]+)".*/\1/'
+}
+
+installDragapult() {
+  echo "Installing Dragapult…"
+  rm $InstallDir/dragapult-app.zip
+  curl -sL "https://github.com/diareuse/dragapult/releases/download/`getDragapultRelease`/dragapult-app.zip" > $InstallDir/dragapult-app.zip
+  unzip -d $InstallDir $InstallDir/dragapult-app.zip > /dev/null 2>&1
+  mv -fi $InstallDir/dragapult-app-*/* $InstallDir
+  rm -r $InstallDir/dragapult-app-* $InstallDir/dragapult-app.zip
+}
+
+getDragapultStatus() {
+  ls $BinaryFile > /dev/null 2>&1
+  echo $?
+}
+
+requireDragapult() {
+  if [[ `getDragapultStatus` != 0 ]]; then
+      installDragapult
+  fi
+}
+
+# endregion
+
+# region Java
+
+getJavaStatus() {
+  java -version > /dev/null 2>&1
+  echo $?
+}
+
+installJava() {
+  echo "Installing OpenJDK…"
+  brew install openjdk > /dev/null 2>&1
+}
+
+requireJava() {
+  if [[ `getJavaStatus` != 0 ]]; then
+      installJava
+  fi
+}
+
+# endregion
+
+requireJava
+requireDragapult
+
+sh $BinaryFile $@
