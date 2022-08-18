@@ -1,17 +1,17 @@
 package dragapult.core.adapter
 
 import dragapult.core.ExternalLocalizationHolder
-import dragapult.core.ExternalLocalizedFile
+import dragapult.core.PlatformLocalizedFile
 import dragapult.core.TranslationHolder
 
 class ExternalLocalizationHolderToFileAdapter(
     override val key: String,
-    private val files: Iterable<ExternalLocalizedFile>
+    private val files: Iterable<PlatformLocalizedFile>
 ) : ExternalLocalizationHolder() {
 
     constructor(
         key: String,
-        vararg files: ExternalLocalizedFile
+        vararg files: PlatformLocalizedFile
     ) : this(
         key = key,
         files = files.toList()

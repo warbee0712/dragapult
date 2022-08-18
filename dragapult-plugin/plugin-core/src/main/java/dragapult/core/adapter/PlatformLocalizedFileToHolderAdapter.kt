@@ -1,14 +1,14 @@
 package dragapult.core.adapter
 
 import dragapult.core.ExternalLocalizationHolder
-import dragapult.core.ExternalLocalizedFile
 import dragapult.core.LocalizedPair
+import dragapult.core.PlatformLocalizedFile
 import java.util.*
 
-class ExternalLocalizedFileToHolderAdapter(
+class PlatformLocalizedFileToHolderAdapter(
     override val locale: Locale,
     private val holders: Iterable<ExternalLocalizationHolder>
-) : ExternalLocalizedFile() {
+) : PlatformLocalizedFile() {
 
     constructor(
         locale: Locale,
@@ -36,7 +36,7 @@ class ExternalLocalizedFileToHolderAdapter(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as ExternalLocalizedFileToHolderAdapter
+        other as PlatformLocalizedFileToHolderAdapter
 
         if (locale != other.locale) return false
         if (holders != other.holders) return false

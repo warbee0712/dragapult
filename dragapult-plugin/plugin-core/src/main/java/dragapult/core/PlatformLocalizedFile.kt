@@ -2,7 +2,7 @@ package dragapult.core
 
 import java.util.*
 
-abstract class ExternalLocalizedFile : Model {
+abstract class PlatformLocalizedFile : Model {
 
     abstract val locale: Locale
     abstract val values: Sequence<LocalizedPair>
@@ -15,7 +15,7 @@ abstract class ExternalLocalizedFile : Model {
         operator fun invoke(
             locale: Locale,
             values: Iterable<LocalizedPair>
-        ): ExternalLocalizedFile = ExternalLocalizedFileDefault(
+        ): PlatformLocalizedFile = PlatformLocalizedFileDefault(
             locale = locale,
             values = values.asSequence()
         )
@@ -24,7 +24,7 @@ abstract class ExternalLocalizedFile : Model {
 
 }
 
-private data class ExternalLocalizedFileDefault(
+private data class PlatformLocalizedFileDefault(
     override val locale: Locale,
     override val values: Sequence<LocalizedPair>
-) : ExternalLocalizedFile()
+) : PlatformLocalizedFile()
