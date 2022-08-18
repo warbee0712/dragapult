@@ -15,3 +15,9 @@ include 'dragapult-json'
 include 'dragapult-csv'
 include 'dragapult-gradle'
 include 'dragapult-test'
+
+include 'dragapult-plugin:plugin-android',
+        'dragapult-plugin:plugin-apple',
+        'dragapult-plugin:plugin-core',
+        'dragapult-plugin:plugin-csv',
+        'dragapult-plugin:plugin-json'

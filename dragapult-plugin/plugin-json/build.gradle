@@ -1,0 +1,8 @@
+plugins {
+    id 'jvm-library'
+    id 'has-auto-service'
+}
+
+dependencies {
+    implementation project(":dragapult-plugin:plugin-core")
+}
