@@ -1,10 +1,15 @@
 package dragapult.app.model
 
-enum class Platform {
+import dragapult.android.LocalizationTypeAndroid
+import dragapult.apple.LocalizationTypeApple
+import dragapult.core.LocalizationType
+import dragapult.json.LocalizationTypeJson
 
-    Android,
-    Apple,
-    Json;
+enum class Platform(val type: LocalizationType) {
+
+    Android(LocalizationTypeAndroid),
+    Apple(LocalizationTypeApple),
+    Json(LocalizationTypeJson);
 
     companion object {
 

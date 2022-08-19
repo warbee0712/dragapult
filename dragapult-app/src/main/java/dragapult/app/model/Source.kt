@@ -1,9 +1,13 @@
 package dragapult.app.model
 
-enum class Source {
+import dragapult.core.LocalizationType
+import dragapult.csv.LocalizationTypeCsv
+import dragapult.json.LocalizationTypeJson
 
-    Json,
-    Csv;
+enum class Source(val type: LocalizationType) {
+
+    Json(LocalizationTypeJson),
+    Csv(LocalizationTypeCsv);
 
     companion object {
 

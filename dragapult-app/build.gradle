@@ -7,5 +7,10 @@ application {
 }
 
 dependencies {
+    implementation project(":dragapult-plugin:plugin-android")
+    implementation project(":dragapult-plugin:plugin-apple")
+    implementation project(":dragapult-plugin:plugin-core")
+    implementation project(":dragapult-plugin:plugin-csv")
+    implementation project(":dragapult-plugin:plugin-json")
     implementation "commons-cli:commons-cli:1.5.0"
 }
