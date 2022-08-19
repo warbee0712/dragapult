@@ -19,6 +19,9 @@ class PlatformLocalizedFileFactoryAndroid : PlatformLocalizedFile.Factory {
     }
 
     override fun fromDirectory(directory: File): Sequence<PlatformLocalizedFile> {
+        require(directory.name == "res") {
+            "You should point the program to ../src/main/res directory"
+        }
         return directory.listFiles().orEmpty()
             .asSequence()
             .filter { it.name.startsWith("values") }
