@@ -4,8 +4,6 @@ import dragapult.android.LocalizationTypeAndroid
 import dragapult.core.LocalizationReader.Companion.localizationReader
 import dragapult.core.LocalizedPair
 import dragapult.core.PlatformLocalizedFile
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.File
 import java.util.*
 
@@ -22,13 +20,6 @@ data class PlatformLocalizedFileAndroidAdapter(
         get() = file
             .localizationReader(LocalizationTypeAndroid).read()
             .map { (key, value) -> LocalizedPair(key, value) }
-
-    private operator fun NodeList.iterator(): Iterator<Node> {
-        return iterator {
-            for (i in 0 until length)
-                yield(item(i))
-        }
-    }
 
     companion object {
 
