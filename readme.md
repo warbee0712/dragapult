@@ -24,12 +24,6 @@ Visit [Wiki][wiki] for more info
   - [Apple][wiki-apple]
   - [Web][wiki-web]
 
----
-
-## Sponsors
-
-### [SKOUMAL s.r.o.](https://www.skoumal.com/)
-
 [wiki]: https://github.com/diareuse/dragapult/wiki
 [wiki-install]: https://github.com/diareuse/dragapult/wiki#wrapper
 [wiki-csv]: https://github.com/diareuse/dragapult/wiki/Fetch-CSV-from-Google-Docs
