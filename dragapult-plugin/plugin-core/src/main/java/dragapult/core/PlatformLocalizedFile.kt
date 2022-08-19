@@ -12,6 +12,22 @@ abstract class PlatformLocalizedFile : Model {
     val keys
         get() = values.map { it.key }.distinct()
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is PlatformLocalizedFile) return false
+
+        if (locale != other.locale) return false
+        if (values != other.values) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = locale.hashCode()
+        result = 31 * result + values.hashCode()
+        return result
+    }
+
     interface Factory {
 
         val type: LocalizationType

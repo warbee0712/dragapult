@@ -5,17 +5,30 @@ abstract class ExternalLocalizationHolder : Model {
     abstract val key: String
     abstract val values: Sequence<TranslationHolder>
 
-    val locales
-        get() = values.map { it.locale }.distinct()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ExternalLocalizationHolder) return false
+
+        if (key != other.key) return false
+        if (values != other.values) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = key.hashCode()
+        result = 31 * result + values.hashCode()
+        return result
+    }
 
     companion object {
 
         operator fun invoke(
             key: String,
-            values: Iterable<TranslationHolder>
+            values: Sequence<TranslationHolder>
         ): ExternalLocalizationHolder = ExternalLocalizationHolderDefault(
             key = key,
-            values = values.asSequence()
+            values = values
         )
 
     }

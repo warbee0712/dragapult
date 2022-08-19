@@ -21,6 +21,7 @@ abstract class PlatformLocalizedFileWriteable(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PlatformLocalizedFileWriteable) return false
+        if (!super.equals(other)) return false
 
         if (origin != other.origin) return false
 
@@ -28,7 +29,9 @@ abstract class PlatformLocalizedFileWriteable(
     }
 
     override fun hashCode(): Int {
-        return origin.hashCode()
+        var result = super.hashCode()
+        result = 31 * result + origin.hashCode()
+        return result
     }
 
     interface Factory {

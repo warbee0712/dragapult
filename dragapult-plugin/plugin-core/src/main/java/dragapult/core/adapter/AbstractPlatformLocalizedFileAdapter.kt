@@ -16,4 +16,22 @@ abstract class AbstractPlatformLocalizedFileAdapter : PlatformLocalizedFile() {
             .localizationReader(type).read()
             .map { (key, value) -> LocalizedPair(key, value) }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is AbstractPlatformLocalizedFileAdapter) return false
+        if (!super.equals(other)) return false
+
+        if (file != other.file) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + file.hashCode()
+        result = 31 * result + type.hashCode()
+        return result
+    }
+
 }
