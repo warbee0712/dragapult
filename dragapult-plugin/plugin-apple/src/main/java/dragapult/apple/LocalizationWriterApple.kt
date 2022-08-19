@@ -1,0 +1,3 @@
+package dragapult.apple
+
+class LocalizationWriterApple
