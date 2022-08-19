@@ -4,7 +4,6 @@ plugins {
 }
 
 group = 'dragapult'
-version = '1.0.0'
 
 test {
     useJUnitPlatform()
