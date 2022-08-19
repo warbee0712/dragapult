@@ -12,7 +12,7 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
-class AndroidFileWriter(
+class LocalizationWriterAndroid(
     private val file: File
 ) : LocalizationWriter {
 
@@ -67,7 +67,7 @@ class AndroidFileWriter(
             get() = LocalizationTypeAndroid
 
         override fun create(file: File): LocalizationWriter {
-            return AndroidFileWriter(file)
+            return LocalizationWriterAndroid(file)
         }
 
     }

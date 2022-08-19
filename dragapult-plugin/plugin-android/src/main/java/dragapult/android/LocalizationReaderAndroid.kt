@@ -8,7 +8,7 @@ import org.w3c.dom.Node
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
-class AndroidFileReader(
+class LocalizationReaderAndroid(
     private val file: File
 ) : LocalizationReader {
 
@@ -44,7 +44,7 @@ class AndroidFileReader(
             get() = LocalizationTypeAndroid
 
         override fun create(file: File): LocalizationReader {
-            return AndroidFileReader(file)
+            return LocalizationReaderAndroid(file)
         }
 
     }
