@@ -1,5 +1,7 @@
 package dragapult.core
 
+import dragapult.core.tooling.loadServices
+import java.io.File
 import java.util.*
 
 abstract class PlatformLocalizedFile : Model {
@@ -9,6 +11,27 @@ abstract class PlatformLocalizedFile : Model {
 
     val keys
         get() = values.map { it.key }.distinct()
+
+    interface Factory {
+
+        val type: LocalizationType
+
+        fun fromFile(file: File): PlatformLocalizedFile
+        fun fromDirectory(directory: File): Sequence<PlatformLocalizedFile>
+
+        companion object {
+
+            fun fromFile(file: File, type: LocalizationType): PlatformLocalizedFile {
+                return loadServices<Factory>().first { it.type == type }.fromFile(file)
+            }
+
+            fun fromDirectory(file: File, type: LocalizationType): Sequence<PlatformLocalizedFile> {
+                return loadServices<Factory>().first { it.type == type }.fromDirectory(file)
+            }
+
+        }
+
+    }
 
     companion object {
 

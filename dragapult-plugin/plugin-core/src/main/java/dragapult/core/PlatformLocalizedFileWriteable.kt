@@ -1,5 +1,6 @@
 package dragapult.core
 
+import dragapult.core.tooling.loadServices
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -30,5 +31,20 @@ abstract class PlatformLocalizedFileWriteable(
         return origin.hashCode()
     }
 
+    interface Factory {
+
+        val type: LocalizationType
+
+        fun writeable(file: PlatformLocalizedFile): PlatformLocalizedFileWriteable
+
+        companion object {
+
+            fun PlatformLocalizedFile.asWriteable(type: LocalizationType): PlatformLocalizedFileWriteable {
+                return loadServices<Factory>().first { it.type == type }.writeable(this)
+            }
+
+        }
+
+    }
 
 }
