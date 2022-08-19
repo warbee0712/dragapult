@@ -1,14 +1,13 @@
 package dragapult.android.adapter
 
 import dragapult.android.LocalizationTypeAndroid
-import dragapult.core.LocalizationWriter.Companion.localizationWriter
+import dragapult.core.LocalizationType
 import dragapult.core.PlatformLocalizedFile
-import dragapult.core.PlatformLocalizedFileWriteable
-import java.io.File
+import dragapult.core.adapter.AbstractPlatformLocalizedFileWriteableAdapter
 
 class PlatformLocalizedFileWriteableAndroidAdapter(
     origin: PlatformLocalizedFile
-) : PlatformLocalizedFileWriteable(origin) {
+) : AbstractPlatformLocalizedFileWriteableAdapter(origin) {
 
     private val dirName
         get() = when (val l = locale.language) {
@@ -16,33 +15,9 @@ class PlatformLocalizedFileWriteableAndroidAdapter(
             else -> "values-$l"
         }
 
-    override fun write(directory: File) {
-        getOutputFile(directory)
-            .localizationWriter(LocalizationTypeAndroid)
-            .write(values.map { it.key to it.value })
-    }
-
-    private fun getOutputFile(directory: File): File {
-        val file = File(directory, "$dirName/strings.xml")
-        val parent = file.parentFile.let(::requireNotNull)
-        parent.mkdirs()
-        file.delete()
-        file.createNewFile()
-        return file
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as PlatformLocalizedFileWriteableAndroidAdapter
-
-        return super.equals(other)
-    }
-
-    @Suppress("RedundantOverride")
-    override fun hashCode(): Int {
-        return super.hashCode()
-    }
+    override val type: LocalizationType
+        get() = LocalizationTypeAndroid
+    override val fileName: String
+        get() = "$dirName/strings.xml"
 
 }
