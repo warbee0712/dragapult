@@ -25,7 +25,7 @@ class PlatformLocalizedFileFactoryApple : PlatformLocalizedFile.Factory {
             .asSequence()
             .filter { it.name.endsWith(".lproj") }
             .flatMap { it.listFiles().orEmpty().asSequence() }
-            .filter { it.endsWith(".strings") }
+            .filter { it.name.endsWith(".strings") }
             .map(::fromFile)
     }
 
