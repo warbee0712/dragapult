@@ -3,6 +3,7 @@ package dragapult.android
 import com.google.auto.service.AutoService
 import dragapult.core.LocalizationType
 import dragapult.core.LocalizationWriter
+import dragapult.core.LocalizationWriterReplacing
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.io.File
@@ -67,7 +68,10 @@ class LocalizationWriterAndroid(
             get() = LocalizationTypeAndroid
 
         override fun create(file: File): LocalizationWriter {
-            return LocalizationWriterAndroid(file)
+            var writer: LocalizationWriter
+            writer = LocalizationWriterAndroid(file)
+            writer = LocalizationWriterReplacing(writer, "%@", "%s")
+            return writer
         }
 
     }
