@@ -1,5 +1,9 @@
 package dragapult.core
 
+import dragapult.core.LocalizationKeyReader.Companion.asLocalizationKeyReader
+import dragapult.core.tooling.loadServices
+import java.io.File
+
 abstract class ExternalLocalizationHolder : Model {
 
     abstract val key: String
@@ -21,6 +25,32 @@ abstract class ExternalLocalizationHolder : Model {
         return result
     }
 
+    interface Factory {
+
+        val type: LocalizationType
+
+        fun fromFile(file: File): Sequence<ExternalLocalizationHolder> {
+            val reader = file.asLocalizationKeyReader(type)
+            return sequence {
+                for (key in reader.keys) {
+                    val values = reader.read(key)
+                        .map { (locale, value) -> TranslationHolder(locale, value) }
+                    val holder = ExternalLocalizationHolder(key = key, values = values)
+                    yield(holder)
+                }
+            }
+        }
+
+        companion object {
+
+            fun File.asHolders(type: LocalizationType): Sequence<ExternalLocalizationHolder> {
+                return loadServices<Factory>().first { it.type == type }.fromFile(this)
+            }
+
+        }
+
+    }
+
     companion object {
 
         operator fun invoke(
@@ -39,24 +69,3 @@ private data class ExternalLocalizationHolderDefault(
     override val key: String,
     override val values: Sequence<TranslationHolder>
 ) : ExternalLocalizationHolder()
-
-private data class ExternalLocalizationHolderMultiValue(
-    override val key: String,
-    private val holders: Sequence<ExternalLocalizationHolder>
-) : ExternalLocalizationHolder() {
-
-    constructor(
-        key: String,
-        vararg holders: ExternalLocalizationHolder
-    ) : this(
-        key = key,
-        holders = holders.asSequence()
-    )
-
-    override val values: Sequence<TranslationHolder>
-        get() = holders
-            .filter { it.key == key }
-            .flatMap { it.values }
-            .distinctBy { it.locale }
-
-}

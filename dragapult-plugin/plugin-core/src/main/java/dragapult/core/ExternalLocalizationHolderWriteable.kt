@@ -1,9 +1,12 @@
 package dragapult.core
 
+import dragapult.core.tooling.loadServices
 import java.io.File
 import java.io.IOException
 
-abstract class ExternalLocalizationHolderWriteable : ExternalLocalizationHolder() {
+abstract class ExternalLocalizationHolderWriteable {
+
+    abstract val source: Sequence<ExternalLocalizationHolder>
 
     @Throws(IOException::class)
     abstract fun write(file: File)
@@ -19,6 +22,24 @@ abstract class ExternalLocalizationHolderWriteable : ExternalLocalizationHolder(
 
     override fun hashCode(): Int {
         return source.hashCode()
+    }
+
+    interface Factory {
+
+        val type: LocalizationType
+
+        fun writeable(holders: Sequence<ExternalLocalizationHolder>): ExternalLocalizationHolderWriteable
+
+        companion object {
+
+            fun Sequence<ExternalLocalizationHolder>.asWriteable(
+                type: LocalizationType
+            ): ExternalLocalizationHolderWriteable {
+                return loadServices<Factory>().first { it.type == type }.writeable(this)
+            }
+
+        }
+
     }
 
 }
