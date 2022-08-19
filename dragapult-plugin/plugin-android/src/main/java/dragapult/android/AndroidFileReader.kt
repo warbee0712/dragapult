@@ -1,5 +1,8 @@
 package dragapult.android
 
+import com.google.auto.service.AutoService
+import dragapult.core.LocalizationReader
+import dragapult.core.LocalizationType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 import java.io.File
@@ -7,9 +10,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class AndroidFileReader(
     private val file: File
-) {
+) : LocalizationReader {
 
-    fun read(): Sequence<Pair<String, String>> {
+    override fun read(): Sequence<Pair<String, String>> {
         return file
             .readDocument()
             .readElements("string")
@@ -34,9 +37,15 @@ class AndroidFileReader(
         }
     }
 
-    companion object {
+    @AutoService(LocalizationReader.Factory::class)
+    class Factory : LocalizationReader.Factory {
 
-        fun File.androidReader() = AndroidFileReader(this)
+        override val type: LocalizationType
+            get() = LocalizationTypeAndroid
+
+        override fun create(file: File): LocalizationReader {
+            return AndroidFileReader(file)
+        }
 
     }
 

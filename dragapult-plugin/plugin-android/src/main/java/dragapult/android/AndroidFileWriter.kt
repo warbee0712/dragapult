@@ -1,5 +1,8 @@
 package dragapult.android
 
+import com.google.auto.service.AutoService
+import dragapult.core.LocalizationType
+import dragapult.core.LocalizationWriter
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.io.File
@@ -11,9 +14,9 @@ import javax.xml.transform.stream.StreamResult
 
 class AndroidFileWriter(
     private val file: File
-) {
+) : LocalizationWriter {
 
-    fun write(values: Sequence<Pair<String, String>>) {
+    override fun write(values: Sequence<Pair<String, String>>) {
         val document = createDocument {
             createElement("resources") {
                 for ((key, value) in values) appendElement("string") {
@@ -57,9 +60,15 @@ class AndroidFileWriter(
 
     // ---
 
-    companion object {
+    @AutoService(LocalizationWriter.Factory::class)
+    class Factory : LocalizationWriter.Factory {
 
-        fun File.androidWriter() = AndroidFileWriter(this)
+        override val type: LocalizationType
+            get() = LocalizationTypeAndroid
+
+        override fun create(file: File): LocalizationWriter {
+            return AndroidFileWriter(file)
+        }
 
     }
 

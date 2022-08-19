@@ -1,6 +1,7 @@
 package dragapult.android.adapter
 
-import dragapult.android.AndroidFileReader.Companion.androidReader
+import dragapult.android.LocalizationTypeAndroid
+import dragapult.core.LocalizationReader.Companion.localizationReader
 import dragapult.core.LocalizedPair
 import dragapult.core.PlatformLocalizedFile
 import org.w3c.dom.Node
@@ -19,7 +20,7 @@ data class PlatformLocalizedFileAndroidAdapter(
 
     override val values: Sequence<LocalizedPair>
         get() = file
-            .androidReader().read()
+            .localizationReader(LocalizationTypeAndroid).read()
             .map { (key, value) -> LocalizedPair(key, value) }
 
     private operator fun NodeList.iterator(): Iterator<Node> {

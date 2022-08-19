@@ -1,6 +1,7 @@
 package dragapult.android.adapter
 
-import dragapult.android.AndroidFileWriter.Companion.androidWriter
+import dragapult.android.LocalizationTypeAndroid
+import dragapult.core.LocalizationWriter.Companion.localizationWriter
 import dragapult.core.PlatformLocalizedFile
 import dragapult.core.PlatformLocalizedFileWriteable
 import java.io.File
@@ -17,7 +18,7 @@ class PlatformLocalizedFileWriteableAndroidAdapter(
 
     override fun write(directory: File) {
         getOutputFile(directory)
-            .androidWriter()
+            .localizationWriter(LocalizationTypeAndroid)
             .write(values.map { it.key to it.value })
     }
 
