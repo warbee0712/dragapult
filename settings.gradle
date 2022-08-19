@@ -7,14 +7,8 @@ dependencyResolutionManagement {
 
 rootProject.name = 'dragapult-i18n'
 
-include 'dragapult-android'
 include 'dragapult-app'
-include 'dragapult-apple'
-include 'dragapult-core'
-include 'dragapult-json'
-include 'dragapult-csv'
 include 'dragapult-gradle'
-include 'dragapult-test'
 
 include 'dragapult-plugin:plugin-android',
         'dragapult-plugin:plugin-apple',
