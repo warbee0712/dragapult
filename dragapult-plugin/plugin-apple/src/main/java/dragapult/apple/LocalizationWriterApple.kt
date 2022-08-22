@@ -3,6 +3,7 @@ package dragapult.apple
 import com.google.auto.service.AutoService
 import dragapult.core.LocalizationType
 import dragapult.core.LocalizationWriter
+import dragapult.core.LocalizationWriterEmptyFiltering
 import dragapult.core.LocalizationWriterReplacing
 import java.io.File
 
@@ -33,6 +34,7 @@ class LocalizationWriterApple(
             var writer: LocalizationWriter
             writer = LocalizationWriterApple(file)
             writer = LocalizationWriterReplacing(writer, "%s", "%@")
+            writer = LocalizationWriterEmptyFiltering(writer)
             return writer
         }
 

@@ -3,6 +3,7 @@ package dragapult.android
 import com.google.auto.service.AutoService
 import dragapult.core.LocalizationType
 import dragapult.core.LocalizationWriter
+import dragapult.core.LocalizationWriterEmptyFiltering
 import dragapult.core.LocalizationWriterReplacing
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -72,6 +73,7 @@ class LocalizationWriterAndroid(
             writer = LocalizationWriterAndroid(file)
             writer = LocalizationWriterReplacing(writer, "%@", "%s")
             writer = LocalizationWriterReplacing(writer, "\'", "\\'")
+            writer = LocalizationWriterEmptyFiltering(writer)
             return writer
         }
 
