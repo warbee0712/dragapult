@@ -1,0 +1,48 @@
+#!/bin/zsh
+
+releaseVersion() {
+  curl -sL "https://api.github.com/repos/diareuse/dragapult/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
+}
+
+osType() {
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then # linux
+    echo "dragapult-linux"
+  elif [[ "$OSTYPE" == "darwin"* ]]; then # macOS
+    echo "dragapult-mac"
+  else
+    echo "Your system is not supported. If you're using Windows use powershell scripts"
+    exit 1
+  fi
+}
+
+## Set release version if it's not defined by the user or exported in system
+if [[ ! -v ReleaseVersion || ! -n "$ReleaseVersion" ]]; then
+  ReleaseVersion="$(releaseVersion)"
+fi
+
+## Download dragapult for generating translation files
+DragapultBinary="/usr/local/opt/dragapult-${ReleaseVersion}"
+# if binary doesn't exist
+if [ ! -f "$DragapultBinary" ]; then
+  echo "Updating to version '$ReleaseVersion'"
+  # delete existing binaries (possibly only the old ones)
+  if [[ $(ls /usr/local/opt | grep ^dragapult | wc -l) -gt 0 ]]; then
+    rm -rf /usr/local/opt/dragapult-*
+    rm -rf /usr/local/bin/dragapult
+  fi
+  # download (or continue downloading) the binary
+  wget -q -O $DragapultBinary -c "https://github.com/diareuse/dragapult/releases/download/${ReleaseVersion}/$(osType)"
+  # make it executable
+  chmod +x $DragapultBinary
+  # link it to PATH
+  ln -s $DragapultBinary /usr/local/bin/dragapult
+  # if macOS then verify the program
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "Validating binary at $DragapultBinary"
+    xattr -r -d com.apple.quarantine $DragapultBinary
+  fi
+  echo "Update finished successfully"
+fi
+
+## Run the downloaded binary on our behalf
+dragapult $@

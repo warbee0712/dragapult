@@ -25,7 +25,7 @@ Visit [Wiki][wiki] for more info
   - [Web][wiki-web]
 
 [wiki]: https://github.com/diareuse/dragapult/wiki
-[wiki-install]: https://github.com/diareuse/dragapult/wiki#wrapper
+[wiki-install]: https://github.com/diareuse/dragapult/wiki/Wrapper
 [wiki-csv]: https://github.com/diareuse/dragapult/wiki/Fetch-CSV-from-Google-Docs
 [wiki-android]: https://github.com/diareuse/dragapult/wiki/Generate-for-Android-Project
 [wiki-apple]: https://github.com/diareuse/dragapult/wiki/Generate-for-Apple-Project
