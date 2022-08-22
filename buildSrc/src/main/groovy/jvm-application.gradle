@@ -3,31 +3,3 @@ plugins {
     id 'jvm-common'
     id 'has-shadow-jar'
 }
-
-task assembleDistRename(type: Copy) {
-    def srcFile = "${project.name}-shadow.zip"
-    def dstFile = "${project.name}.zip"
-
-    include srcFile
-
-    from(file(project.buildDir.absolutePath + "/distributions"))
-    destinationDir(file(project.buildDir.absolutePath + "/distributions"))
-
-    dependsOn assembleShadowDist
-
-    rename {
-        it.replace(srcFile, dstFile)
-    }
-}
-
-task assembleDistCleanup(type: Delete) {
-    def dir = project.buildDir.absolutePath + "/distributions/"
-    delete("$dir${project.name}-shadow.zip")
-    delete("$dir${project.name}-shadow.tar")
-    delete("$dir${project.name}.tar")
-    dependsOn assembleDistRename
-}
-
-task assembleOutputs {
-    dependsOn assembleDist, assembleDistCleanup
-}
