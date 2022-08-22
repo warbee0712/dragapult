@@ -490,3 +490,5 @@ Temporary Items
 .apdisk
 
 /.idea/dbnavigator.xml
+/dragapult
+/dragapult.build_artifacts.txt

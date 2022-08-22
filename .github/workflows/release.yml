@@ -36,7 +36,7 @@ jobs:
           retention-days: 1
 
   release:
-    needs: [ build-graal, build-jvm ]
+    needs: build-graal
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
