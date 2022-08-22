@@ -2,6 +2,10 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
+shadowJar {
+    mergeServiceFiles()
+}
+
 tasks.jar {
     enabled = false
 }
