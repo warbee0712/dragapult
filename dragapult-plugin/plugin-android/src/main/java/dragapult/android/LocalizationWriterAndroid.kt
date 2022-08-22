@@ -71,6 +71,7 @@ class LocalizationWriterAndroid(
             var writer: LocalizationWriter
             writer = LocalizationWriterAndroid(file)
             writer = LocalizationWriterReplacing(writer, "%@", "%s")
+            writer = LocalizationWriterReplacing(writer, "\'", "\\'")
             return writer
         }
 
