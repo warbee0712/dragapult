@@ -5,13 +5,15 @@ plugins {
 }
 
 task assembleDistRename(type: Copy) {
-    def srcFile = project.name + "-" + project.version
-    def dstFile = project.name
+    def srcFile = "${project.name}-shadow.zip"
+    def dstFile = "${project.name}.zip"
+
+    include srcFile
 
     from(file(project.buildDir.absolutePath + "/distributions"))
-    include "$srcFile.*"
     destinationDir(file(project.buildDir.absolutePath + "/distributions"))
-    dependsOn assembleDist
+
+    dependsOn assembleShadowDist
 
     rename {
         it.replace(srcFile, dstFile)
@@ -20,8 +22,9 @@ task assembleDistRename(type: Copy) {
 
 task assembleDistCleanup(type: Delete) {
     def dir = project.buildDir.absolutePath + "/distributions/"
-    delete("$dir${project.name}-${project.version}.zip")
-    delete("$dir${project.name}-${project.version}.tar")
+    delete("$dir${project.name}-shadow.zip")
+    delete("$dir${project.name}-shadow.tar")
+    delete("$dir${project.name}.tar")
     dependsOn assembleDistRename
 }
 
