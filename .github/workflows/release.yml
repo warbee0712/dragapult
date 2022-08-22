@@ -8,31 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-jvm:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0
-
-      - name: Setup Java
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
-
-      - name: Build Library
-        run: ./gradlew assembleOutputs
-
-      - name: Upload binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: dragapult-jvm-latest
-          path: dragapult-app/build/distributions/dragapult-app.zip
-          retention-days: 1
-
   build-graal:
     name: Artifact for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -76,10 +51,6 @@ jobs:
         with:
           name: dragapult-windows-latest
           path: windows
-      - uses: actions/download-artifact@v3
-        with:
-          name: dragapult-jvm-latest
-          path: jvm
       - name: Rename Files
         run: |
           mv macos/dragapult macos/dragapult-mac
@@ -93,4 +64,3 @@ jobs:
             macos/dragapult-mac
             ubuntu/dragapult-linux
             windows/dragapult-windows.exe
-            jvm/dragapult-app.zip
