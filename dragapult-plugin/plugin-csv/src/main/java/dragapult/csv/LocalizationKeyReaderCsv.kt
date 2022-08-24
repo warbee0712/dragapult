@@ -15,7 +15,8 @@ class LocalizationKeyReaderCsv(
     override val keys: Sequence<String>
         get() = sequence {
             file.csvParser().use {
-                for (line in it.drop(1)) {
+                val lines = it.dropWhile { key -> keyRegex.matches(key.firstOrNull().orEmpty()) }
+                for (line in lines) {
                     yield(line[0])
                 }
             }
@@ -40,7 +41,7 @@ class LocalizationKeyReaderCsv(
 
     private fun CSVParser.asTranslationSequence(key: String): Sequence<Pair<Locale, String>> {
         return sequence {
-            val languages = headerMap.entries.drop(1)
+            val languages = headerMap.entries.dropWhile { keyRegex.matches(it.key) }
             val translations = find { it[0] == key } ?: return@sequence
             for ((language, index) in languages) {
                 val locale = Locale.forLanguageTag(language)
@@ -59,6 +60,12 @@ class LocalizationKeyReaderCsv(
         override fun create(file: File): LocalizationKeyReader {
             return LocalizationKeyReaderCsv(file)
         }
+
+    }
+
+    companion object {
+
+        private val keyRegex = Regex("^[kK][eE][yY][sS]?")
 
     }
 
