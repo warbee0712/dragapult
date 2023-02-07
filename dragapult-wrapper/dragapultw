@@ -19,7 +19,7 @@ osType() {
 if [[ ! -v ReleaseVersion || ! -n "$ReleaseVersion" ]]; then
   ReleaseVersion="$(releaseVersion)"
   # export the variable so we don't need to request it again when ran consecutively
-  export $ReleaseVersion
+  export ReleaseVersion
 fi
 
 ## Download dragapult for generating translation files
