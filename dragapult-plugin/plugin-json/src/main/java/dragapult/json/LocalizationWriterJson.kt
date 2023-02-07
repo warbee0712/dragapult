@@ -24,14 +24,21 @@ class LocalizationWriterJson(
     @AutoService(LocalizationWriter.Factory::class)
     class Factory : LocalizationWriter.Factory {
 
+        private var allowBlankValues = false
+
         override val type: LocalizationType
             get() = LocalizationTypeJson
+
+        override fun setAllowBlankValues(value: Boolean) = apply {
+            this.allowBlankValues = value
+        }
 
         override fun create(file: File): LocalizationWriter {
             var writer: LocalizationWriter
             writer = LocalizationWriterJson(file)
             writer = LocalizationWriterReplacing(writer, "%@", "%s")
-            writer = LocalizationWriterEmptyFiltering(writer)
+            if (!allowBlankValues)
+                writer = LocalizationWriterEmptyFiltering(writer)
             return writer
         }
 

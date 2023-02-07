@@ -23,6 +23,9 @@ class GenerateOptions(
     val inputType
         get() = Source.valueOfOption(cli.getOptionValue(InputType))
 
+    val hasBlankValues
+        get() = cli.hasOption(BlankValues)
+
     val help
         get() = cli.hasOption(Help)
 
@@ -61,6 +64,13 @@ class GenerateOptions(
             .desc("Required. Defines input type for \"input-file\" argument. It chooses a specific parser capable of converting the data. Allowed types are ${Source.valuesString()}")
             .build()
 
+        private val BlankValues = Option.builder()
+            .option("b")
+            .longOpt("allow-blank-values")
+            .desc("Permits writing lines with empty values. This might be useful for projects which require text keys to be empty for some translations. Off by default.")
+            .optionalArg(true)
+            .build()
+
         private val Help = Option.builder()
             .option("h")
             .longOpt("help")
@@ -72,6 +82,7 @@ class GenerateOptions(
             .addOption(OutputDirectory)
             .addOption(OutputType)
             .addOption(InputType)
+            .addOption(BlankValues)
             .addOption(Help)
 
     }

@@ -2,6 +2,7 @@ package dragapult.core.adapter
 
 import dragapult.core.LocalizationType
 import dragapult.core.LocalizationWriter.Companion.localizationWriter
+import dragapult.core.LocalizationWriter.Companion.localizationWriterWithBlank
 import dragapult.core.PlatformLocalizedFile
 import dragapult.core.PlatformLocalizedFileWriteable
 import java.io.File
@@ -12,11 +13,15 @@ abstract class AbstractPlatformLocalizedFileWriteableAdapter(
 
     protected abstract val type: LocalizationType
     protected abstract val fileName: String
+    protected abstract val allowBlankValues: Boolean
 
     override fun write(directory: File) {
-        getOutputFile(directory)
-            .localizationWriter(type)
-            .write(values.map { it.key to it.value })
+        val output = getOutputFile(directory)
+        val writer = when (allowBlankValues) {
+            true -> output.localizationWriterWithBlank(type)
+            else -> output.localizationWriter(type)
+        }
+        writer.write(values.map { it.key to it.value })
     }
 
     private fun getOutputFile(directory: File): File {
@@ -34,9 +39,7 @@ abstract class AbstractPlatformLocalizedFileWriteableAdapter(
         if (!super.equals(other)) return false
 
         if (type != other.type) return false
-        if (fileName != other.fileName) return false
-
-        return true
+        return fileName == other.fileName
     }
 
     override fun hashCode(): Int {

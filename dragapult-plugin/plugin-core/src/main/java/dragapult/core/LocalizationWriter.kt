@@ -13,6 +13,8 @@ interface LocalizationWriter {
     interface Factory {
 
         val type: LocalizationType
+
+        fun setAllowBlankValues(value: Boolean): Factory
         fun create(file: File): LocalizationWriter
 
     }
@@ -21,6 +23,12 @@ interface LocalizationWriter {
 
         fun File.localizationWriter(type: LocalizationType): LocalizationWriter {
             return loadServices<Factory>().first { it.type == type }.create(this)
+        }
+
+        fun File.localizationWriterWithBlank(type: LocalizationType): LocalizationWriter {
+            return loadServices<Factory>().first { it.type == type }
+                .setAllowBlankValues(true)
+                .create(this)
         }
 
     }

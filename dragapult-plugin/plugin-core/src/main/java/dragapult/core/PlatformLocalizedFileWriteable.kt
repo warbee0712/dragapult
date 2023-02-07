@@ -23,9 +23,7 @@ abstract class PlatformLocalizedFileWriteable(
         if (other !is PlatformLocalizedFileWriteable) return false
         if (!super.equals(other)) return false
 
-        if (origin != other.origin) return false
-
-        return true
+        return origin == other.origin
     }
 
     override fun hashCode(): Int {
@@ -38,12 +36,19 @@ abstract class PlatformLocalizedFileWriteable(
 
         val type: LocalizationType
 
+        fun setAllowBlankValues(value: Boolean): Factory
         fun writeable(file: PlatformLocalizedFile): PlatformLocalizedFileWriteable
 
         companion object {
 
             fun PlatformLocalizedFile.asWriteable(type: LocalizationType): PlatformLocalizedFileWriteable {
                 return loadServices<Factory>().first { it.type == type }.writeable(this)
+            }
+
+            fun PlatformLocalizedFile.asWriteableWithBlank(type: LocalizationType): PlatformLocalizedFileWriteable {
+                return loadServices<Factory>().first { it.type == type }
+                    .setAllowBlankValues(true)
+                    .writeable(this)
             }
 
         }

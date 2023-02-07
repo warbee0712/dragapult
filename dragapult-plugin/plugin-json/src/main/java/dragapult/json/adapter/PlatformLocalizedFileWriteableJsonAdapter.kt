@@ -6,7 +6,8 @@ import dragapult.core.adapter.AbstractPlatformLocalizedFileWriteableAdapter
 import dragapult.json.LocalizationTypeJson
 
 class PlatformLocalizedFileWriteableJsonAdapter(
-    origin: PlatformLocalizedFile
+    origin: PlatformLocalizedFile,
+    override val allowBlankValues: Boolean
 ) : AbstractPlatformLocalizedFileWriteableAdapter(origin) {
 
     override val type: LocalizationType

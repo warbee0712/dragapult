@@ -10,11 +10,17 @@ import dragapult.core.PlatformLocalizedFileWriteable
 @AutoService(PlatformLocalizedFileWriteable.Factory::class)
 class PlatformLocalizedFileWriteableFactoryAndroid : PlatformLocalizedFileWriteable.Factory {
 
+    private var allowBlankValues = false
+
     override val type: LocalizationType
         get() = LocalizationTypeAndroid
 
+    override fun setAllowBlankValues(value: Boolean) = apply {
+        this.allowBlankValues = value
+    }
+
     override fun writeable(file: PlatformLocalizedFile): PlatformLocalizedFileWriteable {
-        return PlatformLocalizedFileWriteableAndroidAdapter(file)
+        return PlatformLocalizedFileWriteableAndroidAdapter(file, allowBlankValues)
     }
 
 }

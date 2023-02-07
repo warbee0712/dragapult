@@ -6,7 +6,8 @@ import dragapult.core.PlatformLocalizedFile
 import dragapult.core.adapter.AbstractPlatformLocalizedFileWriteableAdapter
 
 class PlatformLocalizedFileWriteableAndroidAdapter(
-    origin: PlatformLocalizedFile
+    origin: PlatformLocalizedFile,
+    override val allowBlankValues: Boolean
 ) : AbstractPlatformLocalizedFileWriteableAdapter(origin) {
 
     private val dirName
