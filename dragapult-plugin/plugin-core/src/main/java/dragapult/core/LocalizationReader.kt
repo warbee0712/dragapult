@@ -5,7 +5,7 @@ import java.io.File
 
 interface LocalizationReader {
 
-    fun read(): Sequence<Pair<String, String>>
+    fun read(): Sequence<Pair<Key, Value>>
 
     interface Factory {
 

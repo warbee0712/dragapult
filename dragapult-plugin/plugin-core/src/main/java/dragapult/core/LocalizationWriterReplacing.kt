@@ -6,7 +6,7 @@ class LocalizationWriterReplacing(
     private val replacement: String
 ) : LocalizationWriter {
 
-    override fun write(values: Sequence<Pair<String, String>>) {
+    override fun write(values: Sequence<Pair<Key, Value>>) {
         origin.write(values.map { (first, second) -> first to second.replace(value, replacement) })
     }
 

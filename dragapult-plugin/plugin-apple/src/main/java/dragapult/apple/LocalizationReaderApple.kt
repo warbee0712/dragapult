@@ -1,15 +1,17 @@
 package dragapult.apple
 
 import com.google.auto.service.AutoService
+import dragapult.core.Key
 import dragapult.core.LocalizationReader
 import dragapult.core.LocalizationType
+import dragapult.core.Value
 import java.io.File
 
 class LocalizationReaderApple(
     private val file: File
 ) : LocalizationReader {
 
-    override fun read(): Sequence<Pair<String, String>> {
+    override fun read(): Sequence<Pair<Key, Value>> {
         return file.bufferedReader().lineSequence()
             .map { Regex("\"(.+)\"\\s*=\\s*\"(.+)\";").find(it)?.groupValues.orEmpty().drop(1) }
             .filter { it.size >= 2 }

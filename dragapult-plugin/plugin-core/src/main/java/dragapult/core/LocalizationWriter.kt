@@ -3,9 +3,12 @@ package dragapult.core
 import dragapult.core.tooling.loadServices
 import java.io.File
 
+typealias Key = String
+typealias Value = String
+
 interface LocalizationWriter {
 
-    fun write(values: Sequence<Pair<String, String>>)
+    fun write(values: Sequence<Pair<Key, Value>>)
 
     interface Factory {
 

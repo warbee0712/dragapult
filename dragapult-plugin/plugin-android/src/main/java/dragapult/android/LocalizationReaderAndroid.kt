@@ -1,8 +1,10 @@
 package dragapult.android
 
 import com.google.auto.service.AutoService
+import dragapult.core.Key
 import dragapult.core.LocalizationReader
 import dragapult.core.LocalizationType
+import dragapult.core.Value
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 import java.io.File
@@ -12,7 +14,7 @@ class LocalizationReaderAndroid(
     private val file: File
 ) : LocalizationReader {
 
-    override fun read(): Sequence<Pair<String, String>> {
+    override fun read(): Sequence<Pair<Key, Value>> {
         return file
             .readDocument()
             .readElements("string")

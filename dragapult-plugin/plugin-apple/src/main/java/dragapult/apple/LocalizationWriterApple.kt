@@ -1,17 +1,14 @@
 package dragapult.apple
 
 import com.google.auto.service.AutoService
-import dragapult.core.LocalizationType
-import dragapult.core.LocalizationWriter
-import dragapult.core.LocalizationWriterEmptyFiltering
-import dragapult.core.LocalizationWriterReplacing
+import dragapult.core.*
 import java.io.File
 
 class LocalizationWriterApple(
     private val file: File
 ) : LocalizationWriter {
 
-    override fun write(values: Sequence<Pair<String, String>>) {
+    override fun write(values: Sequence<Pair<Key, Value>>) {
         file.bufferedWriter().use {
             for ((key, value) in values) {
                 it.write(asLine(key, value))

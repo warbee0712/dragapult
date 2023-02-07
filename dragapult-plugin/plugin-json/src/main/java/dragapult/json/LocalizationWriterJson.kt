@@ -1,10 +1,7 @@
 package dragapult.json
 
 import com.google.auto.service.AutoService
-import dragapult.core.LocalizationType
-import dragapult.core.LocalizationWriter
-import dragapult.core.LocalizationWriterEmptyFiltering
-import dragapult.core.LocalizationWriterReplacing
+import dragapult.core.*
 import org.json.JSONObject
 import java.io.File
 
@@ -12,7 +9,7 @@ class LocalizationWriterJson(
     private val file: File
 ) : LocalizationWriter {
 
-    override fun write(values: Sequence<Pair<String, String>>) {
+    override fun write(values: Sequence<Pair<Key, Value>>) {
         val json = JSONObject()
         for ((key, value) in values) {
             json.put(key, value)

@@ -1,10 +1,7 @@
 package dragapult.android
 
 import com.google.auto.service.AutoService
-import dragapult.core.LocalizationType
-import dragapult.core.LocalizationWriter
-import dragapult.core.LocalizationWriterEmptyFiltering
-import dragapult.core.LocalizationWriterReplacing
+import dragapult.core.*
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.io.File
@@ -18,7 +15,7 @@ class LocalizationWriterAndroid(
     private val file: File
 ) : LocalizationWriter {
 
-    override fun write(values: Sequence<Pair<String, String>>) {
+    override fun write(values: Sequence<Pair<Key, Value>>) {
         val document = createDocument {
             createElement("resources") {
                 for ((key, value) in values) appendElement("string") {
