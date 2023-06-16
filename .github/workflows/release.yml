@@ -1,3 +1,4 @@
+#file: noinspection YAMLSchemaValidation
 name: Release Packages
 
 on:
@@ -13,13 +14,36 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-latest, windows-latest, ubuntu-latest ]
+        os: [ windows-latest, ubuntu-latest ]
     steps:
       - uses: actions/checkout@v2
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.2.0'
-          java-version: '11'
+          version: '22.3.2'
+          java-version: '17'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: shadowJar
+      - name: Build Native Image
+        run: native-image --no-fallback --static --libc=glibc -cp dragapult.app.MainKt -jar dragapult-app/build/libs/dragapult-app.jar dragapult
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: dragapult-${{ matrix.os }}
+          path: dragapult*
+          retention-days: 1
+  build-graal-macos:
+    name: Artifact for macos-latest
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.3.2'
+          java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with Gradle
@@ -31,12 +55,12 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: dragapult-${{ matrix.os }}
+          name: dragapult-macos-latest
           path: dragapult*
           retention-days: 1
 
   release:
-    needs: build-graal
+    needs: [ build-graal,build-graal-macos ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
