@@ -1,58 +1,50 @@
-#!/bin/zsh
+#!/bin/bash
 
-releaseVersion() {
+DragapultBinary="/usr/local/opt/dragapult"
+
+_getReleaseVersion() {
   curl -sL "https://api.github.com/repos/diareuse/dragapult/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
 }
 
-osType() {
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then # linux
-    echo "dragapult-linux"
-  elif [[ "$OSTYPE" == "darwin"* ]]; then # macOS
-    echo "dragapult-mac"
-  else
-    echo "Your system is not supported. If you're using Windows use powershell scripts"
-    exit 1
-  fi
+_getOsType() {
+ if [[ "$OSTYPE" == "linux-gnu"* ]]; then # linux
+   echo "dragapult-linux"
+ elif [[ "$OSTYPE" == "darwin"* ]]; then # macOS
+   echo "dragapult-mac"
+ else
+   echo "Your system is not supported. If you're using Windows use powershell scripts"
+   exit 1
+ fi
 }
 
-## Set release version if it's not defined by the user or exported in system
-if [[ ! -v ReleaseVersion || ! -n "$ReleaseVersion" ]]; then
-  ReleaseVersion="$(releaseVersion)"
-  # export the variable so we don't need to request it again when ran consecutively
-  export ReleaseVersion
-fi
-
-## Download dragapult for generating translation files
-DragapultBinary="/usr/local/opt/dragapult-${ReleaseVersion}"
-# if binary doesn't exist
-if [ ! -f "$DragapultBinary" ]; then
-  echo "Updating to version '$ReleaseVersion'"
-  # Create a opt directory if it doesn't exist yet
+_updateSelf() {
+  DragapultVersion="$(_getReleaseVersion)"
+  echo "Updating to version '$DragapultVersion'"
   if [ ! -d "/usr/local/opt" ]; then
     mkdir -p "/usr/local/opt"
   fi
-  # delete existing binaries (possibly only the old ones)
-  if [[ $(ls /usr/local/opt | grep ^dragapult | wc -l) -gt 0 ]]; then
-    rm -rf /usr/local/opt/dragapult-*
-  fi
-  # download (or continue downloading) the binary
-  wget -q -O $DragapultBinary -c "https://github.com/diareuse/dragapult/releases/download/${ReleaseVersion}/$(osType)"
-  # if macOS then verify the program
+
+  wget -q -O $DragapultBinary -c "https://github.com/diareuse/dragapult/releases/download/${DragapultVersion}/$(_getOsType)"
+  chmod 755 $DragapultBinary
+
   if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Validating binary at $DragapultBinary"
     xattr -r -d com.apple.quarantine $DragapultBinary
   fi
-  echo "Update finished successfully"
-fi
 
-DragapultLink="/usr/local/bin/dragapult"
-if [ ! -f "$DragapultLink" ]; then
-  rm $DragapultLink
-  # make it executable
-  chmod +x $DragapultBinary
-  # link it to PATH
-  ln -s $DragapultBinary $DragapultLink
+  echo "Update finished successfully"
+}
+
+while getopts 'u' flag; do
+  case "${flag}" in
+    u) _updateSelf
+       exit 0;;
+  esac
+done
+
+if [ ! -f "$DragapultBinary" ]; then
+  _updateSelf
 fi
 
 ## Run the downloaded binary on our behalf
-dragapult $@
+$DragapultBinary $@
