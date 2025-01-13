@@ -5,5 +5,5 @@ plugins {
 
 dependencies {
     implementation project(":dragapult-plugin:plugin-core")
-    implementation 'org.json:json:20230618'
+    implementation 'org.json:json:20250107'
 }
